@@ -1,13 +1,14 @@
 import { StyleSheet } from 'react-native';
+import { Colors } from '@constants';
 import { scale } from '@utils';
 
 const styles = StyleSheet.create({
   container: {
-    height: scale(34),
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderRadius: 8,
+    flex: 1,
+    backgroundColor: Colors.NEUTRAL_10,
+  },
+  contentContainer: {
+    padding: scale(16),
   },
 });
 

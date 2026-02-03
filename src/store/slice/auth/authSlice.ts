@@ -1,19 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { StorageKey } from '@constants';
-import { User, UserRole } from '@type/models/user';
-import { getDataStorage, removeDataStorage } from '@utils/storage';
+import { User } from '@type/models/user';
+import {
+  getDataStorage,
+  removeDataStorage,
+  storeDataStorage,
+} from '@utils/storage';
 import { AppDispatch } from '../../store';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 interface AuthState {
   token: string | null;
-  role: UserRole;
   user: User | null;
 }
 
 const initialState: AuthState = {
   token: null,
-  role: null,
   user: null,
 };
 
@@ -24,41 +26,55 @@ const authSlice = createSlice({
     setToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload;
     },
-    setRole: (state, action: PayloadAction<UserRole>) => {
-      state.role = action.payload;
-    },
+
     setAuth: (state, action: PayloadAction<AuthState>) => {
       state.token = action.payload.token;
-      state.role = action.payload.role;
       state.user = action.payload.user;
     },
 
     resetAuth: (state) => {
       state.token = null;
-      state.role = null;
+      state.user = null;
     },
   },
 });
 
-export const { setToken, setRole, setAuth, resetAuth } = authSlice.actions;
+export const { setToken, setAuth, resetAuth } = authSlice.actions;
 
 export const loadAuth = () => async (dispatch: AppDispatch) => {
   try {
     const token = await getDataStorage<string>(StorageKey.TOKEN);
-    const role = await getDataStorage<UserRole>(StorageKey.ROLE);
     const user = await getDataStorage<User>(StorageKey.USER);
 
-    if (token && role && user) {
-      dispatch(setAuth({ token, role, user }));
+    if (token && user) {
+      dispatch(setAuth({ token, user }));
     }
   } catch {
     // console.error('Error loading auth info', error);
   }
 };
 
+export const login = (username: string) => async (dispatch: AppDispatch) => {
+  // Use a deterministic ID based on username so returning users maintain their identity
+  // This ensures they can edit their own questions/comments after re-login
+  const normalizedId = username.toLowerCase().replace(/\s+/g, '-');
+  const mockUser: User = {
+    id: `user-${normalizedId}`,
+    name: username,
+    email: `${normalizedId}@stackunderflow.com`,
+    avatar: `https://ui-avatars.com/api/?name=${username}&background=random`,
+  };
+  const mockToken = `mock-token-${Date.now()}`;
+
+  await storeDataStorage(StorageKey.TOKEN, mockToken);
+  await storeDataStorage(StorageKey.USER, mockUser);
+
+  dispatch(setAuth({ token: mockToken, user: mockUser }));
+};
+
 export const clearAuth = () => async (dispatch: AppDispatch) => {
   await removeDataStorage(StorageKey.TOKEN);
-  await removeDataStorage(StorageKey.ROLE);
+  await removeDataStorage(StorageKey.USER);
   dispatch(resetAuth());
 };
 

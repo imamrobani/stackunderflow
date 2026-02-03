@@ -21,5 +21,5 @@ export const StorageKey = {
   AUTH: 'auth',
   USER: 'user',
   TOKEN: 'token',
-  ROLE: 'role',
+  QUESTIONS: 'questions',
 } as const;

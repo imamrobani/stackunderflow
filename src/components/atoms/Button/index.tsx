@@ -44,10 +44,10 @@ const Button: React.FC<ButtonProps> = ({
         elevation && styles.elevation,
         {
           backgroundColor: disabled
-            ? Colors.NEUTRAL_40
+            ? Colors.NEUTRAL_50
             : Colors[buttonColor as keyof typeof Colors] || buttonColor,
           borderColor: disabled
-            ? Colors.NEUTRAL_40
+            ? Colors.NEUTRAL_50
             : Colors[borderColor as keyof typeof Colors] || borderColor,
           height,
           width,
@@ -63,7 +63,7 @@ const Button: React.FC<ButtonProps> = ({
           type={typeText}
           color={
             disabled
-              ? 'NEUTRAL_60'
+              ? 'NEUTRAL_70'
               : Colors[labelColor as keyof typeof Colors] || labelColor
           }>
           {label}

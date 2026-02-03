@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: scale(8),
     borderColor: Colors.NEUTRAL_40,
     paddingVertical: 0,
-    height: scale(98),
+    height: scale(120),
   },
   inputContainer: {
     flex: 1,
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     color: Colors.PRIMARY_MAIN,
     paddingVertical: scale(8),
     textAlignVertical: 'top',
-    height: scale(90),
+    height: scale(120),
   },
 });
 

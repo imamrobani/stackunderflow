@@ -26,9 +26,9 @@ const Header: React.FC<HeaderProps> = ({
       <StatusBar barStyle={barStyle} backgroundColor={Colors.WHITE} />
       <View style={[styles.container, { paddingTop }]}>
         <Pressable style={styles.iconContainer} onPress={onBack}>
-          <Icons.IcArrowLeft width={scale(16)} height={scale(16)} />
+          <Icons.IcArrowLeft width={scale(18)} height={scale(18)} />
         </Pressable>
-        <Text type="body1Regular">{label}</Text>
+        <Text type="body1Medium">{label}</Text>
       </View>
     </>
   );

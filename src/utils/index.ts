@@ -5,10 +5,23 @@ import {
   Platform,
   ToastAndroid,
 } from 'react-native';
-import { BarcodeScanningResult } from 'expo-camera';
+import { Colors } from '@constants';
+import { Question } from '@type/models/question';
 
 export const { width: deviceWidth, height: deviceHeight } =
   Dimensions.get('window');
+
+export const getStatusColor = (status: Question['status'] | string) => {
+  switch (status) {
+    case 'answered':
+      return Colors.SUCCESS_MAIN;
+    case 'closed':
+      return Colors.NEUTRAL_60;
+    case 'open':
+    default:
+      return Colors.WARNING_MAIN;
+  }
+};
 
 export const scale = (scaleWidth: number) => {
   const DESIGN_WIDTH = 375;
@@ -54,50 +67,6 @@ export const toNumber = (raw: string) => {
   return digits ? parseInt(digits, 10) : 0;
 };
 
-// Helper function to check if a barcode is inside the scanning window
-export const isInsideWindow = (result: BarcodeScanningResult) => {
-  const WINDOW_W = 250;
-  const WINDOW_H = 250;
-  const left = (deviceWidth - WINDOW_W) / 2;
-  const top = (deviceHeight - WINDOW_H) / 2;
-  const right = left + WINDOW_W;
-  const bottom = top + WINDOW_H;
-
-  const anyResult = result as unknown as {
-    bounds?: {
-      origin: { x: number; y: number };
-      size: { width: number; height: number };
-    };
-    cornerPoints?: Array<{ x: number; y: number }>;
-  };
-
-  let cx: number | undefined;
-  let cy: number | undefined;
-
-  if (anyResult.bounds?.origin && anyResult.bounds?.size) {
-    cx = anyResult.bounds.origin.x + anyResult.bounds.size.width / 2;
-    cy = anyResult.bounds.origin.y + anyResult.bounds.size.height / 2;
-  } else if (
-    Array.isArray(anyResult.cornerPoints) &&
-    anyResult.cornerPoints.length
-  ) {
-    const xs = anyResult.cornerPoints.map((p) => p.x);
-    const ys = anyResult.cornerPoints.map((p) => p.y);
-    const minX = Math.min(...xs);
-    const maxX = Math.max(...xs);
-    const minY = Math.min(...ys);
-    const maxY = Math.max(...ys);
-    cx = (minX + maxX) / 2;
-    cy = (minY + maxY) / 2;
-  }
-
-  if (cx == null || cy == null) {
-    return true;
-  }
-
-  return cx >= left && cx <= right && cy >= top && cy <= bottom;
-};
-
 export const uriToFile = (uri: string, prefix?: string) => {
   if (!uri) {
     return { name: '', type: '', uri: '' };
@@ -116,12 +85,4 @@ export const uriToFile = (uri: string, prefix?: string) => {
     type,
     uri,
   };
-};
-
-export const formatTime = (s: number) => {
-  const m = Math.floor(s / 60)
-    .toString()
-    .padStart(2, '0');
-  const sec = (s % 60).toString().padStart(2, '0');
-  return `${m}:${sec}`;
 };

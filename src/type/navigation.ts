@@ -7,7 +7,16 @@ export type RootStackParamList = {
         params?: MainTabParamList[keyof MainTabParamList];
       }
     | undefined;
-  QuestionDetail: undefined;
+  AskQuestion:
+    | {
+        question?: {
+          id: string;
+          title: string;
+          description: string;
+        };
+      }
+    | undefined;
+  QuestionDetail: { id: string };
 };
 
 // ======================
