@@ -1,0 +1,17 @@
+export const Images = {
+  bgDown: require('./img_bg_down.png'),
+  bgUp: require('./img_bg_up.png'),
+  dummyEvent1: require('./img_event_1.png'),
+  dummyEvent2: require('./img_event_2.png'),
+  dummyHotelProfile: require('./img_dummy_hotel_profile.png'),
+  dummyQrCode: require('./img_qr_code.png'),
+  dummyUser1: require('./img_user_1.png'),
+  dummyUser2: require('./img_user_2.png'),
+  dummyUser3: require('./img_user_3.png'),
+  dummyUserProfile: require('./img_dummy_user_profile.png'),
+  logo: require('./img_logo.png'),
+  otpConfirm: require('./img_otp.png'),
+  successCreateEvent: require('./img_success_create_event.png'),
+  successOtp: require('./img_success_otp.png'),
+  successWithdraw: require('./img_success_withdraw.png'),
+};
